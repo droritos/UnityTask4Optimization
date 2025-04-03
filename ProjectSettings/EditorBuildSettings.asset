@@ -6,11 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu/Main Menu Scene.unity
-    guid: 356878aca635b894fb453ef9b1c251c9
-  - enabled: 1
-    path: Assets/Scenes/Baking Scene/Prefab Variants Scene/Prefab Variants Scene.unity
-    guid: d243c29dfd062e943b5e38c5e180063f
+    path: Assets/Scenes/After Optimizion.unity
+    guid: a386aeff1296dde4d91ad1b5f353fb50
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 34080d2027876864eb546c52b7754d21,
       type: 2}
