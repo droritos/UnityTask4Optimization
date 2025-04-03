@@ -13,13 +13,17 @@ public class PlayerCharacterController : MonoBehaviour
     public event UnityAction<int> onTakeDamageEventAction;
     [SerializeField] private UnityEvent<int> onTakeDamageEvent;
 
-    [Header("Navigation")] 
-    private NavMeshAgent navMeshAgent;
+    [Header("Navigation")]
+    [SerializeField] NavMeshAgent navMeshAgent;
 
     [SerializeField] private Transform waypoint;
     [SerializeField] private Transform[] pathWaypoints;
-    
-    private Animator animator;
+
+    [Header("Character Stuff")] 
+    [SerializeField] Camera mainCamera;
+    [SerializeField] Animator animator;
+
+    public const string Speed = "Speed";
 
     public int Hp
     {
@@ -71,8 +75,6 @@ public class PlayerCharacterController : MonoBehaviour
     private void Start()
     {
         hp = 100;
-        animator = GetComponent<Animator>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
         startingHp = hp;
         SetMudAreaCost();
         ToggleMoving(true);
@@ -105,30 +107,35 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         if (animator)
-            animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
-        
-        if (Camera.main != null)
+            animator.SetFloat(Speed, navMeshAgent.velocity.magnitude);
+
+        MouseHover();
+
+    }
+
+    private void MouseHover()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-            {
-                //We want to know what the mouse is hovering now
-                Debug.Log($"Hit: {hit.collider.name}");
-            }
+            //We want to know what the mouse is hovering now
+            Debug.Log($"Hit: {hit.collider.name}");
         }
-
     }
 
-    /* No Use
-    
-    private void OnEnable()
+    private void OnValidate()
     {
-        
+        if (!mainCamera)
+        {
+            Debug.LogWarning("Main Camera Is Null");
+        }
+        if (!navMeshAgent)
+        {
+            navMeshAgent = this.GetComponent<NavMeshAgent>();
+        }
+        if (!animator)
+        {
+            animator = this.GetComponent<Animator>();
+        }
     }
-
-    private void OnDisable()
-    {
-        
-    }
-    */
 }
